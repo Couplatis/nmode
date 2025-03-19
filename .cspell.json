@@ -6,6 +6,7 @@
         "heun",
         "nmode",
         "odeint",
+        "pytest",
         "randn",
         "torchdiffeq",
         "torchvision",
