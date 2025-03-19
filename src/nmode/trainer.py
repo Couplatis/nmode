@@ -119,7 +119,7 @@ class MNISTTrainer:
                 p_bar.set_postfix(
                     {
                         "loss": f"{total_loss / total_samples:.4f}",
-                        "acc": f"{(correct / total_samples) * 100:.2%}",
+                        "acc": f"{correct / total_samples:.2%}",
                     }
                 )
 
@@ -149,7 +149,7 @@ class CIFAR10Trainer:
                 nn.Linear(128 * 8 * 8, self.hidden_dim),
                 nn.BatchNorm1d(self.hidden_dim),
             ),
-        )
+        ).to(device)
         self.device = device
         self.criterion = nn.CrossEntropyLoss()
 
@@ -205,17 +205,14 @@ class CIFAR10Trainer:
 
                 self.optimizer.step()
 
-                # total_loss += loss.item() * x.size(0)
-                total_loss += loss.item()
+                total_loss += loss.item() * x.size(0)
                 pred = outputs.argmax(dim=1)
                 correct += (pred == y).sum().item()
                 total_samples += x.size(0)
 
                 p_bar.set_postfix(
-                    {
-                        "loss": f"{total_loss / total_samples:.4f}",
-                        "acc": f"{correct / total_samples:.2%}",
-                    }
+                    loss=f"{total_loss / total_samples:.4f}",
+                    acc=f"{correct / total_samples:.2%}",
                 )
 
         self.scheduler.step()
@@ -243,7 +240,8 @@ class CIFAR10Trainer:
                     outputs: torch.Tensor = self.model(x)
                     loss: torch.Tensor = self.criterion(outputs, y)
 
-                total_loss += loss.item()
+                # 修复损失值累加方式
+                total_loss += loss.item() * x.size(0)
                 pred = outputs.argmax(dim=1)
                 correct += (pred == y).sum().item()
                 total_samples += x.size(0)
