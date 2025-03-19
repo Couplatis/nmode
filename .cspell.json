@@ -1,5 +1,9 @@
 {
     "words": [
+        "autocast",
+        "dopri",
+        "fehlberg",
+        "heun",
         "odeint",
         "randn",
         "torchdiffeq",
