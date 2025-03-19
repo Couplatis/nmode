@@ -9,6 +9,7 @@
         "randn",
         "torchdiffeq",
         "torchvision",
-        "tqdm"
+        "tqdm",
+        "typer"
     ]
 }

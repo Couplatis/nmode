@@ -9,7 +9,11 @@ dependencies = [
     "torchdiffeq>=0.2.5",
     "torchvision>=0.21.0",
     "tqdm>=4.67.1",
+    "typer>=0.15.2",
 ]
+
+[project.scripts]
+train = "nmode:cli.app"
 
 [tool.uv.sources]
 torch = [

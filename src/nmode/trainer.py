@@ -54,7 +54,6 @@ class MNISTTrainer:
                 f"Test Loss: {test_loss:.4f}, Test Acc: {test_acc * 100:.2f}%"
             )
 
-    @torch.compile
     def train_epoch(self, loader: DataLoader[MNIST]) -> Tuple[float, float]:
         loader_len = len(loader)
         dataset_len = len(loader.dataset)  # type: ignore
@@ -178,7 +177,6 @@ class CIFAR10Trainer:
                 f"Test Loss: {test_loss:.4f}, Test Acc: {test_acc * 100:.2f}%"
             )
 
-    @torch.compile
     def train_epoch(self, loader: DataLoader):
         loader_len = len(loader)
         dataset_len = len(loader.dataset)  # type: ignore

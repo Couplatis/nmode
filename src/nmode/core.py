@@ -26,7 +26,6 @@ class ODESolver(nn.Module):
         self.register_buffer("t_span", t_span)
         self.solver = solver
 
-    @torch.compile
     def forward(self, func: Callable, y0: torch.Tensor, inverse: bool = False):
         t_span = self.t_span.flip(0) if inverse else self.t_span
         return odeint(func, y0, t_span, method=self.solver)[-1]
@@ -45,7 +44,7 @@ class NeuralODEFunc(torch.autograd.Function):
     ) -> torch.Tensor:
         ctx.ode_solver = ode_solver
 
-        @torch.jit.script
+        @torch.compile
         def forward_func(_, y: torch.Tensor) -> torch.Tensor:
             return (
                 -y
@@ -64,7 +63,7 @@ class NeuralODEFunc(torch.autograd.Function):
         y_end, gamma = ctx.saved_tensors
         ode_solver = ctx.ode_solver
 
-        @torch.jit.script
+        @torch.compile
         def inverse_func(_, state: torch.Tensor):
             p, lam, _ = torch.unbind(state)
             p_gamma = p + gamma
@@ -113,7 +112,6 @@ class NeuralMemoryODE(nn.Module):
         self.classifier = nn.Linear(hidden_dim, output_dim)
         self.ode_func = NeuralODEFunc.apply
 
-    @torch.compile
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         gamma = self.encoder(x)
         y0 = torch.zeros_like(gamma)
