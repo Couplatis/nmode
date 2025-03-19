@@ -4,9 +4,11 @@
         "dopri",
         "fehlberg",
         "heun",
+        "nmode",
         "odeint",
         "randn",
         "torchdiffeq",
-        "torchvision"
+        "torchvision",
+        "tqdm"
     ]
 }

@@ -1,11 +1,11 @@
-from torchvision.datasets import MNIST, CIFAR10
-from torch.utils.data import DataLoader
-from pathlib import Path
-from typing import Tuple, Union
-
 import torch
 import torchvision
 import torchvision.transforms as transforms
+
+from pathlib import Path
+from typing import Tuple, Union
+from torchvision.datasets import MNIST, CIFAR10
+from torch.utils.data import DataLoader
 
 
 def get_mnist_loaders(
